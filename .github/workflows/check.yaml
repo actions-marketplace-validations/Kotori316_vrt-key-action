@@ -53,8 +53,14 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Check event
+        run: echo "${CURRENT_EVENT}" | jq
+        env:
+          CURRENT_EVENT: ${{ toJSON(github.event) }}
       - uses: './'
         id: test-action
+        with:
+          branch: 'main'
       - name: Print output
         run: echo "${obtained_key}"
         env:
