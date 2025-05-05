@@ -1,6 +1,4 @@
-import {
-    debug,
-} from "@actions/core";
+import { debug } from "@actions/core";
 
 type Success = {
     success: true;
@@ -24,15 +22,12 @@ async function get(
     branch: string,
 ): Promise<AccessResult> {
     const url = `${endpoint}/${owner}/${repository}/${branch}`;
-    debug(`Fetching ${url}`)
-    const response = await fetch(
-        url,
-        {
-            headers: {
-                "User-Agent": `vrt-key-action/${owner}/${repository}/${branch}`,
-            },
+    debug(`Fetching ${url}`);
+    const response = await fetch(url, {
+        headers: {
+            "User-Agent": `vrt-key-action/${owner}/${repository}/${branch}`,
         },
-    );
+    });
     if (!response.ok) {
         const result = await response.json();
         return {
