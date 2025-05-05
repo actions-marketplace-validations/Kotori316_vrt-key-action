@@ -5,8 +5,9 @@
   "scripts": {
     "format": "npx @biomejs/biome check --write --unsafe",
     "ci": "npx @biomejs/biome ci && tsc --noEmit",
-    "package": "npx esbuild src/index.ts --bundle --platform=node --sourcemap --outfile=dist/index.cjs",
-    "bundle": "npm run format && npm run package",
+    "package:main": "npx esbuild src/index.ts --bundle --platform=node --sourcemap --outfile=dist/index.cjs",
+    "package:post": "npx esbuild src/index_post.ts --bundle --platform=node --sourcemap --outfile=dist/index_post.cjs",
+    "bundle": "npm run package:main && npm run package:post",
     "run": "npx @github/local-action . src/getMain.ts .env"
   },
   "dependencies": {

@@ -33,6 +33,7 @@ export async function run(): Promise<void> {
         return;
     }
     saveState("successfully-get-key", "true");
+    saveState("branch", branch);
     setOutput("key", key.data);
 }
 

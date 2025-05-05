@@ -17581,12 +17581,12 @@ var require_lib = __commonJS({
             throw new Error("Client has already been disposed.");
           }
           const parsedUrl = new URL(requestUrl);
-          let info = this._prepareRequest(verb, parsedUrl, headers);
+          let info2 = this._prepareRequest(verb, parsedUrl, headers);
           const maxTries = this._allowRetries && RetryableHttpVerbs.includes(verb) ? this._maxRetries + 1 : 1;
           let numTries = 0;
           let response;
           do {
-            response = yield this.requestRaw(info, data);
+            response = yield this.requestRaw(info2, data);
             if (response && response.message && response.message.statusCode === HttpCodes.Unauthorized) {
               let authenticationHandler;
               for (const handler of this.handlers) {
@@ -17596,7 +17596,7 @@ var require_lib = __commonJS({
                 }
               }
               if (authenticationHandler) {
-                return authenticationHandler.handleAuthentication(this, info, data);
+                return authenticationHandler.handleAuthentication(this, info2, data);
               } else {
                 return response;
               }
@@ -17619,8 +17619,8 @@ var require_lib = __commonJS({
                   }
                 }
               }
-              info = this._prepareRequest(verb, parsedRedirectUrl, headers);
-              response = yield this.requestRaw(info, data);
+              info2 = this._prepareRequest(verb, parsedRedirectUrl, headers);
+              response = yield this.requestRaw(info2, data);
               redirectsRemaining--;
             }
             if (!response.message.statusCode || !HttpResponseRetryCodes.includes(response.message.statusCode)) {
@@ -17649,7 +17649,7 @@ var require_lib = __commonJS({
        * @param info
        * @param data
        */
-      requestRaw(info, data) {
+      requestRaw(info2, data) {
         return __awaiter(this, void 0, void 0, function* () {
           return new Promise((resolve, reject) => {
             function callbackForResult(err, res) {
@@ -17661,7 +17661,7 @@ var require_lib = __commonJS({
                 resolve(res);
               }
             }
-            this.requestRawWithCallback(info, data, callbackForResult);
+            this.requestRawWithCallback(info2, data, callbackForResult);
           });
         });
       }
@@ -17671,12 +17671,12 @@ var require_lib = __commonJS({
        * @param data
        * @param onResult
        */
-      requestRawWithCallback(info, data, onResult) {
+      requestRawWithCallback(info2, data, onResult) {
         if (typeof data === "string") {
-          if (!info.options.headers) {
-            info.options.headers = {};
+          if (!info2.options.headers) {
+            info2.options.headers = {};
           }
-          info.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
+          info2.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
         }
         let callbackCalled = false;
         function handleResult(err, res) {
@@ -17685,7 +17685,7 @@ var require_lib = __commonJS({
             onResult(err, res);
           }
         }
-        const req = info.httpModule.request(info.options, (msg) => {
+        const req = info2.httpModule.request(info2.options, (msg) => {
           const res = new HttpClientResponse(msg);
           handleResult(void 0, res);
         });
@@ -17697,7 +17697,7 @@ var require_lib = __commonJS({
           if (socket) {
             socket.end();
           }
-          handleResult(new Error(`Request timeout: ${info.options.path}`));
+          handleResult(new Error(`Request timeout: ${info2.options.path}`));
         });
         req.on("error", function(err) {
           handleResult(err);
@@ -17733,27 +17733,27 @@ var require_lib = __commonJS({
         return this._getProxyAgentDispatcher(parsedUrl, proxyUrl);
       }
       _prepareRequest(method, requestUrl, headers) {
-        const info = {};
-        info.parsedUrl = requestUrl;
-        const usingSsl = info.parsedUrl.protocol === "https:";
-        info.httpModule = usingSsl ? https : http;
+        const info2 = {};
+        info2.parsedUrl = requestUrl;
+        const usingSsl = info2.parsedUrl.protocol === "https:";
+        info2.httpModule = usingSsl ? https : http;
         const defaultPort = usingSsl ? 443 : 80;
-        info.options = {};
-        info.options.host = info.parsedUrl.hostname;
-        info.options.port = info.parsedUrl.port ? parseInt(info.parsedUrl.port) : defaultPort;
-        info.options.path = (info.parsedUrl.pathname || "") + (info.parsedUrl.search || "");
-        info.options.method = method;
-        info.options.headers = this._mergeHeaders(headers);
+        info2.options = {};
+        info2.options.host = info2.parsedUrl.hostname;
+        info2.options.port = info2.parsedUrl.port ? parseInt(info2.parsedUrl.port) : defaultPort;
+        info2.options.path = (info2.parsedUrl.pathname || "") + (info2.parsedUrl.search || "");
+        info2.options.method = method;
+        info2.options.headers = this._mergeHeaders(headers);
         if (this.userAgent != null) {
-          info.options.headers["user-agent"] = this.userAgent;
+          info2.options.headers["user-agent"] = this.userAgent;
         }
-        info.options.agent = this._getAgent(info.parsedUrl);
+        info2.options.agent = this._getAgent(info2.parsedUrl);
         if (this.handlers) {
           for (const handler of this.handlers) {
-            handler.prepareRequest(info.options);
+            handler.prepareRequest(info2.options);
           }
         }
-        return info;
+        return info2;
       }
       _mergeHeaders(headers) {
         if (this.requestOptions && this.requestOptions.headers) {
@@ -19705,7 +19705,7 @@ var require_core = __commonJS({
 Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports2.getBooleanInput = getBooleanInput;
-    function setOutput2(name, value) {
+    function setOutput(name, value) {
       const filePath = process.env["GITHUB_OUTPUT"] || "";
       if (filePath) {
         return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name, value));
@@ -19713,7 +19713,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       process.stdout.write(os.EOL);
       (0, command_1.issueCommand)("set-output", { name }, (0, utils_1.toCommandValue)(value));
     }
-    exports2.setOutput = setOutput2;
+    exports2.setOutput = setOutput;
     function setCommandEcho(enabled) {
       (0, command_1.issue)("echo", enabled ? "on" : "off");
     }
@@ -19743,10 +19743,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       (0, command_1.issueCommand)("notice", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
     exports2.notice = notice;
-    function info(message) {
+    function info2(message) {
       process.stdout.write(message + os.EOL);
     }
-    exports2.info = info;
+    exports2.info = info2;
     function startGroup(name) {
       (0, command_1.issue)("group", name);
     }
@@ -19768,24 +19768,24 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       });
     }
     exports2.group = group;
-    function saveState2(name, value) {
+    function saveState(name, value) {
       const filePath = process.env["GITHUB_STATE"] || "";
       if (filePath) {
         return (0, file_command_1.issueFileCommand)("STATE", (0, file_command_1.prepareKeyValueMessage)(name, value));
       }
       (0, command_1.issueCommand)("save-state", { name }, (0, utils_1.toCommandValue)(value));
     }
-    exports2.saveState = saveState2;
-    function getState(name) {
+    exports2.saveState = saveState;
+    function getState2(name) {
       return process.env[`STATE_${name}`] || "";
     }
-    exports2.getState = getState;
-    function getIDToken(aud) {
+    exports2.getState = getState2;
+    function getIDToken2(aud) {
       return __awaiter(this, void 0, void 0, function* () {
         return yield oidc_utils_1.OidcClient.getIDToken(aud);
       });
     }
-    exports2.getIDToken = getIDToken;
+    exports2.getIDToken = getIDToken2;
     var summary_1 = require_summary();
     Object.defineProperty(exports2, "summary", { enumerable: true, get: function() {
       return summary_1.summary;
@@ -23869,7 +23869,7 @@ var require_github = __commonJS({
   }
 });
 
-// src/getMain.ts
+// src/putMain.ts
 var import_core2 = __toESM(require_core(), 1);
 var import_github = __toESM(require_github(), 1);
 
@@ -23940,44 +23940,38 @@ function getErrorMessage(result) {
   return result.error;
 }
 
-// src/getMain.ts
+// src/putMain.ts
 async function run() {
+  const status = (0, import_core2.getState)("successfully-get-key");
+  (0, import_core2.debug)(`State(successfully-get-key): ${status}`);
+  if (status !== "true") {
+    (0, import_core2.info)("Nothing to put");
+    return;
+  }
   const endpoint = (0, import_core2.getInput)("endpoint");
-  (0, import_core2.debug)(`Detected endpoint: ${endpoint}`);
-  if (!endpoint) {
-    (0, import_core2.setFailed)("Endpoint cannot be empty");
-    return;
-  }
   const repo = import_github.context.repo;
-  (0, import_core2.debug)(`Detected repo: ${repo.owner}/${repo.repo}`);
-  const branch = (0, import_core2.getInput)("branch") || getBranchFromContext();
-  (0, import_core2.debug)(`Detected branch: ${branch}`);
-  if (!branch) {
-    (0, import_core2.setFailed)("Could not detect branch");
+  const branch = (0, import_core2.getState)("branch");
+  const token = await (0, import_core2.getIDToken)();
+  const sha = import_github.context.sha;
+  (0, import_core2.debug)(
+    `Saving key for ${repo.owner}/${repo.repo}#${branch} as ${sha} to ${endpoint}`
+  );
+  const response = await vrtKey_default.put(
+    endpoint,
+    repo.owner,
+    repo.repo,
+    branch,
+    token,
+    sha
+  );
+  if (!response.success) {
+    (0, import_core2.setFailed)(response.error);
     return;
   }
-  const key = await vrtKey_default.get(endpoint, repo.owner, repo.repo, branch);
-  if (!key.success) {
-    (0, import_core2.setFailed)(key.error);
-    (0, import_core2.saveState)("successfully-get-key", "false");
-    return;
-  }
-  (0, import_core2.saveState)("successfully-get-key", "true");
-  (0, import_core2.saveState)("branch", branch);
-  (0, import_core2.setOutput)("key", key.data);
-}
-function getBranchFromContext() {
-  if (import_github.context.eventName === "push") {
-    return process.env.GITHUB_REF_NAME;
-  }
-  const prBase = import_github.context.payload.pull_request?.base.ref;
-  if (prBase && typeof prBase === "string") {
-    return prBase;
-  }
-  return import_github.context.ref.replace("refs/heads/", "");
+  (0, import_core2.info)("Successfully put key");
 }
 
-// src/index.ts
+// src/index_post.ts
 run();
 /*! Bundled license information:
 
@@ -23987,4 +23981,4 @@ undici/lib/fetch/body.js:
 undici/lib/websocket/frame.js:
   (*! ws. MIT License. Einar Otto Stangvik <einaros@gmail.com> *)
 */
-//# sourceMappingURL=index.cjs.map
+//# sourceMappingURL=index_post.cjs.map
