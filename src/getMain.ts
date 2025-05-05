@@ -19,9 +19,7 @@ export async function run(): Promise<void> {
     const repo = context.repo;
     debug(`Detected repo: ${repo.owner}/${repo.repo}`);
 
-    const branch =
-        getInput("branch") ||
-        (context.payload.pull_request?.head.ref ?? context.payload.ref_name);
+    const branch = getInput("branch") || getBranchFromContext();
     debug(`Detected branch: ${branch}`);
     if (!branch) {
         setFailed("Could not detect branch");
@@ -36,4 +34,15 @@ export async function run(): Promise<void> {
     }
     saveState("successfully-get-key", "true");
     setOutput("key", key.data);
+}
+
+function getBranchFromContext(): string | undefined {
+    if (context.eventName === "push") {
+        return process.env.GITHUB_REF_NAME;
+    }
+    const prBase = context.payload.pull_request?.base.ref;
+    if (prBase && typeof prBase === "string") {
+        return prBase;
+    }
+    return context.ref.replace("refs/heads/", "");
 }

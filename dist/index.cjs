@@ -23950,7 +23950,7 @@ async function run() {
   }
   const repo = import_github.context.repo;
   (0, import_core2.debug)(`Detected repo: ${repo.owner}/${repo.repo}`);
-  const branch = (0, import_core2.getInput)("branch") || (import_github.context.payload.pull_request?.head.ref ?? import_github.context.payload.ref_name);
+  const branch = (0, import_core2.getInput)("branch") || getBranchFromContext();
   (0, import_core2.debug)(`Detected branch: ${branch}`);
   if (!branch) {
     (0, import_core2.setFailed)("Could not detect branch");
@@ -23964,6 +23964,16 @@ async function run() {
   }
   (0, import_core2.saveState)("successfully-get-key", "true");
   (0, import_core2.setOutput)("key", key.data);
+}
+function getBranchFromContext() {
+  if (import_github.context.eventName === "push") {
+    return process.env.GITHUB_REF_NAME;
+  }
+  const prBase = import_github.context.payload.pull_request?.base.ref;
+  if (prBase && typeof prBase === "string") {
+    return prBase;
+  }
+  return import_github.context.ref.replace("refs/heads/", "");
 }
 
 // src/index.ts
