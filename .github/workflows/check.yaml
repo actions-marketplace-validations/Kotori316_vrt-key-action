@@ -5,6 +5,9 @@ on:
       - 'main'
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -41,3 +44,18 @@ jobs:
             git diff --ignore-space-at-eol --text dist/
             exit 1
           fi
+
+  local-action:
+    runs-on: ubuntu-latest
+    needs:
+      - check
+      - check-dist
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: './'
+        id: test-action
+      - name: Print output
+        run: echo "${obtained_key}"
+        env:
+          obtained_key: ${{ steps.test-action.outputs.key }}
