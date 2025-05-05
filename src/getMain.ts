@@ -11,6 +11,10 @@ import vrtKey from "./vrtKey";
 export async function run(): Promise<void> {
     const endpoint = getInput("endpoint");
     debug(`Detected endpoint: ${endpoint}`);
+    if (!endpoint) {
+        setFailed("Endpoint cannot be empty");
+        return;
+    }
 
     const repo = context.repo;
     debug(`Detected repo: ${repo.owner}/${repo.repo}`);
@@ -19,6 +23,10 @@ export async function run(): Promise<void> {
         getInput("branch") ||
         (context.payload.pull_request?.head.ref ?? context.payload.ref_name);
     debug(`Detected branch: ${branch}`);
+    if (!branch) {
+        setFailed("Could not detect branch");
+        return;
+    }
 
     const key = await vrtKey.get(endpoint, repo.owner, repo.repo, branch);
     if (!key.success) {

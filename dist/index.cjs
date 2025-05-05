@@ -23944,10 +23944,18 @@ function getErrorMessage(result) {
 async function run() {
   const endpoint = (0, import_core2.getInput)("endpoint");
   (0, import_core2.debug)(`Detected endpoint: ${endpoint}`);
+  if (!endpoint) {
+    (0, import_core2.setFailed)("Endpoint cannot be empty");
+    return;
+  }
   const repo = import_github.context.repo;
   (0, import_core2.debug)(`Detected repo: ${repo.owner}/${repo.repo}`);
   const branch = (0, import_core2.getInput)("branch") || (import_github.context.payload.pull_request?.head.ref ?? import_github.context.payload.ref_name);
   (0, import_core2.debug)(`Detected branch: ${branch}`);
+  if (!branch) {
+    (0, import_core2.setFailed)("Could not detect branch");
+    return;
+  }
   const key = await vrtKey_default.get(endpoint, repo.owner, repo.repo, branch);
   if (!key.success) {
     (0, import_core2.setFailed)(key.error);
