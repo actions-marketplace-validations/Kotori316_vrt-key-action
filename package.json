@@ -5,7 +5,7 @@
   "scripts": {
     "format": "npx @biomejs/biome check --write --unsafe",
     "ci": "npx @biomejs/biome ci && tsc --noEmit",
-    "package": "npx esbuild src/index.ts --bundle --platform=node --sourcemap --outfile=dist/index.js",
+    "package": "npx esbuild src/index.ts --bundle --platform=node --sourcemap --outfile=dist/index.cjs",
     "bundle": "npm run format && npm run package",
     "run": "npx @github/local-action . src/getMain.ts .env"
   },

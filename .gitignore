@@ -1,7 +1,7 @@
 .idea
 dist/**
-!dist/index.js
-!dist/index.js.map
+!dist/*.cjs
+!dist/*.cjs.map
 node_modules/
 .env
 .env.production
