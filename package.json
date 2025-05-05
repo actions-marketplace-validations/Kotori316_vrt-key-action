@@ -6,13 +6,16 @@
     "format": "npx @biomejs/biome check --write --unsafe",
     "ci": "npx @biomejs/biome ci && tsc --noEmit",
     "package": "npx esbuild src/index.ts --bundle --platform=node --sourcemap --outfile=dist/index.js",
-    "bundle": "npm run format && npm run package"
+    "bundle": "npm run format && npm run package",
+    "run": "npx @github/local-action . src/getMain.ts .env"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1"
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@github/local-action": "^3.2.1",
     "@types/node": "^20.17",
     "esbuild": "^0.25.3",
     "typescript": "^5.8.2",

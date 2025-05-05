@@ -1,0 +1,24 @@
+name: 'vrt-key-action'
+description: 'Provide vrt key and save the key when succeeded'
+author: 'Kotori316'
+
+branding:
+  icon: bookmark
+  color: gray-dark
+
+inputs:
+  endpoint:
+    description: 'The endpoint of VRT Key holder server'
+    required: true
+    default: 'https://vrt-key-holer.kotori316.com'
+  branch:
+    description: 'The branch used to get key for VRT'
+    required: false
+
+outputs:
+  key:
+    description: 'The key for VRT'
+
+runs:
+  using: node20
+  main: 'dist/index.js'

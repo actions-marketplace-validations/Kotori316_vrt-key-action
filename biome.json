@@ -8,7 +8,7 @@
       "package.json",
       "tsconfig.json"
     ],
-    "ignore": ["**/*.d.ts", "node_modules"]
+    "ignore": ["**/*.d.ts", "node_modules", "dist"]
   },
   "organizeImports": {
     "enabled": true
