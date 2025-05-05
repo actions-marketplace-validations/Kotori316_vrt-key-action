@@ -1,0 +1,31 @@
+{
+  "name": "vrt-key-action",
+  "type": "module",
+  "version": "0.0.0",
+  "scripts": {
+    "format": "npx @biomejs/biome check --write --unsafe",
+    "ci": "npx @biomejs/biome ci && tsc --noEmit",
+    "package": "npx esbuild src/index.ts --bundle --platform=node --sourcemap --outfile=dist/index.js",
+    "bundle": "npm run format && npm run package"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^20.17",
+    "esbuild": "^0.25.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.1.2"
+  },
+  "volta": {
+    "node": "20.19.0"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "engines": {
+    "node": "^20"
+  },
+  "license": "MIT"
+}

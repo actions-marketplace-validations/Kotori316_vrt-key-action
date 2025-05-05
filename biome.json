@@ -1,0 +1,60 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "files": {
+    "include": [
+      "./**/*.ts",
+      "./**/*.tsx",
+      "./**/*.js",
+      "package.json",
+      "tsconfig.json"
+    ],
+    "ignore": ["**/*.d.ts", "node_modules"]
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "noUnusedFunctionParameters": "error"
+      },
+      "suspicious": {
+        "noReactSpecificProps": "error"
+      },
+      "style": {
+        "noNamespace": "error",
+        "noNamespaceImport": "error",
+        "noYodaExpression": "error",
+        "useConsistentArrayType": {
+          "level": "error",
+          "options": {
+            "syntax": "shorthand"
+          }
+        },
+        "useNamingConvention": {
+          "level": "error",
+          "options": {
+            "requireAscii": true
+          }
+        }
+      },
+      "nursery": {
+        "useSortedClasses": "error"
+      }
+    }
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 4
+  },
+  "json": {
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 2
+    }
+  }
+}
