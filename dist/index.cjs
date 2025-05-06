@@ -23969,6 +23969,7 @@ async function run() {
   (0, import_core2.saveState)("successfully-get-key", "true");
   (0, import_core2.saveState)("branch", branch);
   (0, import_core2.setOutput)("key", key.data);
+  (0, import_core2.setOutput)("actual-key", import_github.context.sha);
 }
 function getBranchFromContext() {
   if (import_github.context.eventName === "push") {

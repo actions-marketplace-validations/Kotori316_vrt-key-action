@@ -17,7 +17,9 @@ inputs:
 
 outputs:
   key:
-    description: 'The key for VRT'
+    description: 'The key for VRT, which successfully finished'
+  actual-key:
+    description: 'The key for VRT, which is for current execution'
 
 runs:
   using: node20
