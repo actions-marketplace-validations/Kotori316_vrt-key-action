@@ -1,5 +1,5 @@
 name: 'vrt-key-action'
-description: 'Provide vrt key and save the key when succeeded'
+description: '[INTERNAL ONLY] Provide vrt key and save the key when succeeded'
 author: 'Kotori316'
 
 branding:
