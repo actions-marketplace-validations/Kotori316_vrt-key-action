@@ -19693,7 +19693,7 @@ var require_core = __commonJS({
       return inputs.map((input) => input.trim());
     }
     exports2.getMultilineInput = getMultilineInput;
-    function getBooleanInput(name, options) {
+    function getBooleanInput2(name, options) {
       const trueValue = ["true", "True", "TRUE"];
       const falseValue = ["false", "False", "FALSE"];
       const val = getInput2(name, options);
@@ -19704,7 +19704,7 @@ var require_core = __commonJS({
       throw new TypeError(`Input does not meet YAML 1.2 "Core Schema" specification: ${name}
 Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
-    exports2.getBooleanInput = getBooleanInput;
+    exports2.getBooleanInput = getBooleanInput2;
     function setOutput(name, value) {
       const filePath = process.env["GITHUB_OUTPUT"] || "";
       if (filePath) {
@@ -23942,6 +23942,11 @@ function getErrorMessage(result) {
 
 // src/putMain.ts
 async function run() {
+  const saveKey = (0, import_core2.getBooleanInput)("save-key");
+  if (!saveKey) {
+    (0, import_core2.info)("Saving key is disabled");
+    return;
+  }
   const status = (0, import_core2.getState)("successfully-get-key");
   (0, import_core2.debug)(`State(successfully-get-key): ${status}`);
   if (status !== "true") {

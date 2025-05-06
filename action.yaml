@@ -14,6 +14,9 @@ inputs:
   branch:
     description: 'The branch used to get key for VRT'
     required: false
+  save-key:
+    description: 'If true, post action will save the actual key.'
+    required: true
 
 outputs:
   key:

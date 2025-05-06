@@ -1,5 +1,6 @@
 import {
     debug,
+    getBooleanInput,
     getIDToken,
     getInput,
     getState,
@@ -10,6 +11,11 @@ import { context } from "@actions/github";
 import vrtKey from "./vrtKey";
 
 export async function run(): Promise<void> {
+    const saveKey = getBooleanInput("save-key");
+    if (!saveKey) {
+        info("Saving key is disabled");
+        return;
+    }
     const status = getState("successfully-get-key");
     debug(`State(successfully-get-key): ${status}`);
     if (status !== "true") {
