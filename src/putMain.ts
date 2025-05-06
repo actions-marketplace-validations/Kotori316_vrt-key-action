@@ -32,6 +32,7 @@ export async function run(): Promise<void> {
         token,
         sha,
     );
+    debug(`Put key: ${response.success}`);
     if (!response.success) {
         setFailed(response.error);
         return;

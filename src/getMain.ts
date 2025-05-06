@@ -1,4 +1,5 @@
 import {
+    info,
     debug,
     getInput,
     saveState,
@@ -25,8 +26,11 @@ export async function run(): Promise<void> {
         setFailed("Could not detect branch");
         return;
     }
-
+    info(
+        `Accessing ${endpoint} to get key for ${repo.owner}/${repo.repo}#${branch}`,
+    );
     const key = await vrtKey.get(endpoint, repo.owner, repo.repo, branch);
+    debug(`Got key: ${key.success}`);
     if (!key.success) {
         setFailed(key.error);
         saveState("successfully-get-key", "false");
