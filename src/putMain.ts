@@ -20,9 +20,9 @@ export async function run(): Promise<void> {
     const repo = context.repo;
     const branch = getState("branch");
     const token = await getIDToken();
-    const sha = context.sha;
+    const key = context.sha;
     debug(
-        `Saving key for ${repo.owner}/${repo.repo}#${branch} as ${sha} to ${endpoint}`,
+        `Saving key for ${repo.owner}/${repo.repo}#${branch} as ${key} to ${endpoint}`,
     );
     const response = await vrtKey.put(
         endpoint,
@@ -30,7 +30,7 @@ export async function run(): Promise<void> {
         repo.repo,
         branch,
         token,
-        sha,
+        key,
     );
     debug(`Put key: ${response.success}`);
     if (!response.success) {
