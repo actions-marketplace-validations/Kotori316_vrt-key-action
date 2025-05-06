@@ -64,6 +64,35 @@ jobs:
       - uses: actions/checkout@v4
       - uses: './'
         id: test-action
+        with:
+          save-key: true
+      - name: Print output
+        run: echo "${obtained_key}"
+        env:
+          obtained_key: ${{ steps.test-action.outputs.key }}
+
+  local-action2:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    permissions:
+      id-token: write
+      contents: read
+    needs:
+      - check
+      - check-dist
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: './'
+        id: test-action
+        with:
+          save-key: false
       - name: Print output
         run: echo "${obtained_key}"
         env:
