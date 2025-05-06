@@ -8,7 +8,8 @@
     "package:main": "npx esbuild src/index.ts --bundle --platform=node --sourcemap --outfile=dist/index.cjs",
     "package:post": "npx esbuild src/index_post.ts --bundle --platform=node --sourcemap --outfile=dist/index_post.cjs",
     "bundle": "npm run package:main && npm run package:post",
-    "run": "npx @github/local-action . src/getMain.ts .env"
+    "run": "npx @github/local-action . src/getMain.ts .env",
+    "all": "npm run format && npm run bundle"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",

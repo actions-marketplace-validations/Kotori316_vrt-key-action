@@ -23952,9 +23952,9 @@ async function run() {
   const repo = import_github.context.repo;
   const branch = (0, import_core2.getState)("branch");
   const token = await (0, import_core2.getIDToken)();
-  const sha = import_github.context.sha;
+  const key = import_github.context.sha;
   (0, import_core2.debug)(
-    `Saving key for ${repo.owner}/${repo.repo}#${branch} as ${sha} to ${endpoint}`
+    `Saving key for ${repo.owner}/${repo.repo}#${branch} as ${key} to ${endpoint}`
   );
   const response = await vrtKey_default.put(
     endpoint,
@@ -23962,8 +23962,9 @@ async function run() {
     repo.repo,
     branch,
     token,
-    sha
+    key
   );
+  (0, import_core2.debug)(`Put key: ${response.success}`);
   if (!response.success) {
     (0, import_core2.setFailed)(response.error);
     return;

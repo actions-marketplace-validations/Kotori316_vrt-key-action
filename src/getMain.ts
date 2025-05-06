@@ -1,7 +1,7 @@
 import {
-    info,
     debug,
     getInput,
+    info,
     saveState,
     setFailed,
     setOutput,
